@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .carousel-section {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 40px;
+    padding: 20px 0;
+    text-align: center;
+    font-family: sans-serif;
+  }
+  .carousel-card {
+    flex: 0 0 auto;
+    width: 300px;
+    margin-right: 20px;
+    scroll-snap-align: start;
+  }
+  .carousel-card img {
+    width: 100%;
+    height: auto;
+  }
+  .glyphicon-chevron-right{
+    color:rgb(219,0,0);
+  }
+  .glyphicon-chevron-left{
+    color:rgb(219,0,0);
+  }
+  .bg-image{
+    background-image: url("{{ input_movie.1 }}");
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    z-index: -1;
+    transition: opacity 1s;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow-y: scroll;
+    position: relative;
+  }
+  .container {
+    padding: 20px;
+    margin-top: 100vh; 
+  }
+  .arrow-button{
+    background-color: rgb(219,0,0);;
+  }
+  .arrow-button {
+    background-color: rgb(219,0,0);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 99;
+    background: none;
+    border: none;
+    font-size: 40px;
+  }
+</style>
+<div class="bg-image"></div>
+
+<div class="container">
+    <button id="arrowButton" class="arrow-button" onclick="window.history.back()">&#129044;</button>
+    <div id="myCarousel" class="carousel-slide" data-ride="carousel">
+        <div class="carousel-section">
+            {% for recommendation in recommendations %}
+                <div class="carousel-card">
+                    <div> <h4>{{ recommendation.0 }}</h4></div>
+                    <br>
+                    <div><img src="{{ recommendation.1 }}" title="{{ recommendation.0 }}" onclick="window.open('{{recommendation.2}}','_blank')"></div>
+                </div>
+            {% endfor %}
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+  </div>
+</div>
+
+
+<script>
+    const prevButton = document.querySelector('.left.carousel-control');
+    const nextButton = document.querySelector('.right.carousel-control');
+    const carouselSection = document.querySelector('.carousel-section');
+    
+    const scrollAmount = 500;
+    
+    prevButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      carouselSection.scrollLeft -= scrollAmount;
+    });
+    
+    nextButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      carouselSection.scrollLeft += scrollAmount;
+    });
+
+</script>
+<script>
+    window.addEventListener('scroll', function() {
+      var background = document.querySelector('.bg-image');
+      var content = document.querySelector('.container');
+      var contentTop = content.getBoundingClientRect().top;
+
+      if (contentTop <= window.innerHeight) {
+        background.style.opacity = '0';
+      } else {
+        background.style.opacity = '1';
+      }
+    });
+  </script>
+
+{% endblock %}

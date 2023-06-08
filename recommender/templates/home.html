@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    h1{
+      color: rgb(219,0,0);
+      padding-left: 30px;
+    }
+    .form-group{
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+    .form-control {
+      background-color: black;
+      border-color: rgb(86,77,77);
+      color: white;
+    }
+    .btn-danger{
+      background-color: rgb(219,0,0);
+      margin-left: 100px;
+    }
+    .btn-danger:hover {
+      background-color: rgb(131,16,16);
+  }
+  </style>
+    <h1> MOVIE RECOMMENDER </h1>
+    <br>
+    <form method="post" action="{% url 'next' %}">
+        {% csrf_token%}
+        <div class="form-group">
+          <label for="movie_name">Movie Name</label>
+          <input type="text" class="form-control" id="movie_name" name="movie_name" placeholder="Enter Movie">
+        </div>
+        <button type="submit" class="btn btn-danger">Submit</button>
+      </form>
+
+{% endblock %}
